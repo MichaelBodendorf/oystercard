@@ -19,7 +19,7 @@ describe Oystercard do
   end
 
   it "maximum limit reached" do
-    expect{ subject.top_up(100) }.to raise_error "Maximum limit of #{Oystercard::LIMIT} has been reached"
+    expect{ subject.top_up(100) }.to raise_error "Maximum limit of #{Oystercard::MAX_BALANCE} has been reached"
   end
 
   it "fare deducted from my card" do
@@ -27,23 +27,24 @@ describe Oystercard do
     expect{ subject.deduct 1 }.to change{subject.balance}.by -1
   end
 
-describe 'touch_in' do
-    it {is_expected.to respond_to(:touch_in)}
-  end
+# describe 'touch_in' do
+#     it {is_expected.to respond_to(:touch_in)}
+#   end
 
   it "is not in a journey" do
     expect(subject).not_to be_in_journey
   end
 
-# it "can touch in" do
-#   subject.touch_in
-#   expect(subject).to be_in_journey
-# end
-
-  it "can touch out" do
+  it "can touch in" do
+    subject.top_up(10)
     subject.touch_in
-    subject.touch_out
-    expect(subject).not_to be_in_journey
+    expect(subject).to be_in_journey
   end
+
+  # it "can touch out" do
+  #   subject.touch_in
+  #   subject.touch_out
+  #   expect(subject).not_to be_in_journey
+  # end
 end
 
