@@ -27,25 +27,26 @@ describe Oystercard do
     expect{ subject.deduct 1 }.to change{subject.balance}.by -1
   end
 
-# describe 'touch_in' do
-#     it {is_expected.to respond_to(:touch_in)}
-#   end
-
   it "is not in a journey" do
     expect(subject).not_to be_in_journey
   end
 
-  it "can touch in" do
-    subject.top_up(10)
-    subject.touch_in
-    expect(subject).to be_in_journey
+  it "raise an error if not enough on card" do
+    expect { subject.touch_in }.to raise_error "Your balance is less than #{Oystercard::MIN_BALANCE}"
   end
 
-  it "can touch out" do
-    subject.top_up(10)
-    subject.touch_in
-    subject.touch_out
-    expect(subject).not_to be_in_journey
+  describe "Touch In/Out" do
+    it "can touch in" do
+      subject.top_up(10)
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
+  
+    it "can touch out" do
+      subject.top_up(10)
+      subject.touch_in
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
   end
 end
-

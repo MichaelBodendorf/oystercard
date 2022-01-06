@@ -12,13 +12,8 @@ class Oystercard
   end
 
   def top_up(value)
-
-    if @balance + value > MAX_BALANCE
-      raise "Maximum limit of #{MAX_BALANCE} has been reached"
-    else
-      @balance += value
-    end
-
+    raise "Maximum limit of #{MAX_BALANCE} has been reached" if @balance + value > MAX_BALANCE
+    @balance += value
   end
 
   def deduct(value)
@@ -30,12 +25,8 @@ class Oystercard
   end 
 
   def touch_in
-    if @balance < MIN_BALANCE
-      raise "Your balance is less than #{MIN_BALANCE}"
-    else
-      @in_journey = true
-    end
-    
+    raise "Your balance is less than #{MIN_BALANCE}" if @balance < MIN_BALANCE
+    @in_journey = true  
   end
 
   def touch_out
